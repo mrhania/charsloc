@@ -4,6 +4,16 @@ pub struct Tagged<I: Iterator> {
     iter: Located<I>,
 }
 
+impl<I: Iterator> Tagged<I> {
+
+    #[inline]
+    pub fn new(iter: I) -> Tagged<I> {
+        Tagged {
+            iter: Located::new(iter),
+        }
+    }
+}
+
 impl<I: Iterator<Item=char>> Iterator for Tagged<I> {
     type Item = (I::Item, Location);
 
