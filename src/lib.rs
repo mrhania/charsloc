@@ -1,5 +1,5 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-struct Location {
+pub struct Location {
     pub line: u32,
     pub column: u32,
 }
@@ -26,7 +26,7 @@ impl Location {
     }
 }
 
-struct Located<I: Iterator> {
+pub struct Located<I: Iterator> {
     iter: I,
     location: Location,
 }
@@ -74,7 +74,7 @@ impl<I: Iterator<Item=char>> Iterator for Located<I> {
     }
 }
 
-struct Tagged<I: Iterator> {
+pub struct Tagged<I: Iterator> {
     iter: Located<I>,
 }
 
