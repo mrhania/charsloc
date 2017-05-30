@@ -40,6 +40,11 @@ impl<I: Iterator> Located<I> {
             location: Location::start(),
         }
     }
+
+    #[inline]
+    pub fn location(&self) -> Location {
+        self.location
+    }
 }
 
 impl<I: Iterator<Item=char>> Iterator for Located<I> {
