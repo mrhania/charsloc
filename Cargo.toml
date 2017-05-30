@@ -1,0 +1,6 @@
+[package]
+name = "iterloc"
+version = "0.1.0"
+authors = ["Łukasz Hanuszczak <lukasz.hanuszczak@gmail.com>"]
+
+[dependencies]
