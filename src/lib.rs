@@ -1,6 +1,28 @@
 struct Location {
-    line: u32,
-    column: u32,
+    pub line: u32,
+    pub column: u32,
+}
+
+impl Location {
+
+    #[inline]
+    pub fn start() -> Location {
+        Location {
+            line: 1,
+            column: 1,
+        }
+    }
+
+    #[inline]
+    pub fn next_line(&mut self) {
+        self.column = 1;
+        self.line += 1;
+    }
+
+    #[inline]
+    pub fn next_column(&mut self) {
+        self.column += 1;
+    }
 }
 
 struct Located<I: Iterator> {
@@ -14,10 +36,7 @@ impl<I: Iterator> Located<I> {
     pub fn new(iter: I) -> Located<I> {
         Located {
             iter: iter,
-            location: Location {
-                line: 1,
-                column: 1
-            }
+            location: Location::start(),
         }
     }
 }
@@ -30,10 +49,9 @@ impl<I: Iterator<Item=char>> Iterator for Located<I> {
         let result = self.iter.next();
         if let Some(c) = result {
             if c == '\n' {
-                self.location.column = 1;
-                self.location.line += 1;
+                self.location.next_line();
             } else {
-                self.location.column += 1;
+                self.location.next_column();
             }
         }
         result
