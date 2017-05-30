@@ -1,3 +1,4 @@
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 struct Location {
     pub line: u32,
     pub column: u32,
