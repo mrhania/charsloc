@@ -1,5 +1,30 @@
 use ::Location;
 
+/// An wrapper around an iterator of characters that also provides information
+/// about the current location within a file.
+///
+/// # Examples
+///
+/// ``` rust
+/// # use charsloc::Located;
+/// let mut iter = Located::new("ab\nd".chars());
+///
+/// assert_eq!(iter.location().line, 1);
+/// assert_eq!(iter.location().column, 1);
+/// assert_eq!(iter.next(), Some('a'));
+///
+/// assert_eq!(iter.location().line, 1);
+/// assert_eq!(iter.location().column, 2);
+/// assert_eq!(iter.next(), Some('b'));
+///
+/// assert_eq!(iter.location().line, 1);
+/// assert_eq!(iter.location().column, 3);
+/// assert_eq!(iter.next(), Some('\n'));
+///
+/// assert_eq!(iter.location().line, 2);
+/// assert_eq!(iter.location().column, 1);
+/// assert_eq!(iter.next(), Some('d'));
+/// ```
 pub struct Located<I: Iterator> {
     iter: I,
     location: Location,
@@ -7,6 +32,7 @@ pub struct Located<I: Iterator> {
 
 impl<I: Iterator> Located<I> {
 
+    /// Constructs new iterator wrapper.
     #[inline]
     pub fn new(iter: I) -> Located<I> {
         Located {
@@ -15,6 +41,8 @@ impl<I: Iterator> Located<I> {
         }
     }
 
+    /// Retrieves the location of the next character being returned by the
+    /// underlying iterator.
     #[inline]
     pub fn location(&self) -> Location {
         self.location
