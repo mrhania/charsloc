@@ -1,11 +1,27 @@
 use ::{Located, Location};
 
+/// An iterator of characters that tags each returned character with the
+/// location at which it occurs within the file.
+///
+/// # Examples
+///
+/// ``` rust
+/// # use charsloc::{Location, Tagged};
+/// let mut iter = Tagged::new("ab\ncd".chars());
+///
+/// assert_eq!(iter.next(), Some(('a', Location { line: 1, column: 1 })));
+/// assert_eq!(iter.next(), Some(('b', Location { line: 1, column: 2 })));
+/// assert_eq!(iter.next(), Some(('\n', Location { line: 1, column: 3 })));
+/// assert_eq!(iter.next(), Some(('c', Location { line: 2, column: 1 })));
+/// assert_eq!(iter.next(), Some(('d', Location { line: 2, column: 2 })));
+/// ```
 pub struct Tagged<I: Iterator> {
     iter: Located<I>,
 }
 
 impl<I: Iterator> Tagged<I> {
 
+    /// Constructs new iterator wrapper.
     #[inline]
     pub fn new(iter: I) -> Tagged<I> {
         Tagged {
