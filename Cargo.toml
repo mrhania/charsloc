@@ -2,5 +2,11 @@
 name = "charsloc"
 version = "0.1.0"
 authors = ["Łukasz Hanuszczak <lukasz.hanuszczak@gmail.com>"]
+keywords = ["char", "iterator", "location"]
+license = "MIT"
+readme = "README.md"
+description = """
+A library that enriches character iterators with location information.
+"""
 
 [dependencies]
