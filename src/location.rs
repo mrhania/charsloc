@@ -7,12 +7,13 @@ pub struct Location {
 
 impl Location {
 
-    /// Construct a location representing the beginning of a file.
+    /// Constructs a location representing the beginning of a file.
     ///
     /// # Examples
     ///
     /// ```rust
     /// # use charsloc::Location;
+    ///
     /// let location = Location::start();
     /// assert_eq!(location.line, 1);
     /// assert_eq!(location.column, 1);
@@ -31,6 +32,7 @@ impl Location {
     ///
     /// ```rust
     /// # use charsloc::Location;
+    ///
     /// let mut location = Location { line: 3, column: 5 };
     /// location.next_line();
     /// assert_eq!(location.line, 4);
