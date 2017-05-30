@@ -6,23 +6,19 @@ use ::Location;
 /// # Examples
 ///
 /// ``` rust
-/// # use charsloc::Located;
+/// # use charsloc::{Located, Location};
 /// let mut iter = Located::new("ab\nd".chars());
 ///
-/// assert_eq!(iter.location().line, 1);
-/// assert_eq!(iter.location().column, 1);
+/// assert_eq!(iter.location(), Location { line: 1, column: 1 });
 /// assert_eq!(iter.next(), Some('a'));
 ///
-/// assert_eq!(iter.location().line, 1);
-/// assert_eq!(iter.location().column, 2);
+/// assert_eq!(iter.location(), Location { line: 1, column: 2 });
 /// assert_eq!(iter.next(), Some('b'));
 ///
-/// assert_eq!(iter.location().line, 1);
-/// assert_eq!(iter.location().column, 3);
+/// assert_eq!(iter.location(), Location { line: 1, column: 3 });
 /// assert_eq!(iter.next(), Some('\n'));
 ///
-/// assert_eq!(iter.location().line, 2);
-/// assert_eq!(iter.location().column, 1);
+/// assert_eq!(iter.location(), Location { line: 2, column: 1 });
 /// assert_eq!(iter.next(), Some('d'));
 /// ```
 pub struct Located<I: Iterator> {
@@ -74,4 +70,41 @@ impl<I: Iterator<Item=char>> Iterator for Located<I> {
     fn size_hint(&self) -> (usize, Option<usize>) {
         self.iter.size_hint()
     }
+}
+
+macro_rules! assert_next_loc {
+    ($iter:ident, $value:expr, line: $line:expr, column: $column:expr) => {{
+        assert_eq!($iter.location().line, $line);
+        assert_eq!($iter.location().column, $column);
+        assert_eq!($iter.next(), Some($value));
+    }}
+}
+
+#[test]
+fn test_single_line() {
+    let mut iter = Located::new("foo".chars());
+    assert_next_loc!(iter, 'f', line: 1, column: 1);
+    assert_next_loc!(iter, 'o', line: 1, column: 2);
+    assert_next_loc!(iter, 'o', line: 1, column: 3);
+}
+
+#[test]
+fn test_multi_line() {
+    let mut iter = Located::new("a\nbc\nd".chars());
+    assert_next_loc!(iter, 'a', line: 1, column: 1);
+    assert_next_loc!(iter, '\n', line: 1, column: 2);
+    assert_next_loc!(iter, 'b', line: 2, column: 1);
+    assert_next_loc!(iter, 'c', line: 2, column: 2);
+    assert_next_loc!(iter, '\n', line: 2, column: 3);
+    assert_next_loc!(iter, 'd', line: 3, column: 1);
+}
+
+#[test]
+fn test_carriage_newline() {
+    let mut iter = Located::new("a\r\n\nb".chars());
+    assert_next_loc!(iter, 'a', line: 1, column: 1);
+    assert_next_loc!(iter, '\r', line: 1, column: 2);
+    assert_next_loc!(iter, '\n', line: 1, column: 3);
+    assert_next_loc!(iter, '\n', line: 2, column: 1);
+    assert_next_loc!(iter, 'b', line: 3, column: 1);
 }
