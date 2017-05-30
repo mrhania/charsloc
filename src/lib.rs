@@ -1,30 +1,6 @@
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Location {
-    pub line: u32,
-    pub column: u32,
-}
+mod location;
 
-impl Location {
-
-    #[inline]
-    pub fn start() -> Location {
-        Location {
-            line: 1,
-            column: 1,
-        }
-    }
-
-    #[inline]
-    pub fn next_line(&mut self) {
-        self.column = 1;
-        self.line += 1;
-    }
-
-    #[inline]
-    pub fn next_column(&mut self) {
-        self.column += 1;
-    }
-}
+pub use self::location::Location;
 
 pub struct Located<I: Iterator> {
     iter: I,
