@@ -43,6 +43,34 @@ impl<I: Iterator> Located<I> {
     pub fn location(&self) -> Location {
         self.location
     }
+
+    /// Returns reference to the underlying iterator.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// # use charsloc::Located;
+    /// let iter = Located::new("a".chars());
+    /// assert_eq!(iter.iter().size_hint(), iter.size_hint());
+    /// ```
+    #[inline]
+    pub fn iter(&self) -> &I {
+        &self.iter
+    }
+
+    /// Returns mutable reference to the underlying iterator.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// # use charsloc::Located;
+    /// let mut iter = Located::new("a".chars().peekable());
+    /// assert_eq!(iter.iter_mut().peek(), Some(&'a'));
+    /// ```
+    #[inline]
+    pub fn iter_mut(&mut self) -> &mut I {
+        &mut self.iter
+    }
 }
 
 impl<I: Iterator<Item=char>> Iterator for Located<I> {
