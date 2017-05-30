@@ -72,6 +72,7 @@ impl<I: Iterator<Item=char>> Iterator for Located<I> {
     }
 }
 
+#[cfg(test)]
 macro_rules! assert_next_loc {
     ($iter:ident, $value:expr, line: $line:expr, column: $column:expr) => {{
         assert_eq!($iter.location().line, $line);
