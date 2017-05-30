@@ -28,6 +28,34 @@ impl<I: Iterator> Tagged<I> {
             iter: Located::new(iter),
         }
     }
+
+    /// Returns reference to the underlying iterator.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// # use charsloc::Tagged;
+    /// let iter = Tagged::new("a".chars());
+    /// assert_eq!(iter.iter().size_hint(), iter.size_hint());
+    /// ```
+    #[inline]
+    pub fn iter(&self) -> &I {
+        self.iter.iter()
+    }
+
+    /// Returns mutable reference to the underlying iterator.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// # use charsloc::Tagged;
+    /// let mut iter = Tagged::new("a".chars().peekable());
+    /// assert_eq!(iter.iter_mut().peek(), Some(&'a'));
+    /// ```
+    #[inline]
+    pub fn iter_mut(&mut self) -> &mut I {
+        self.iter.iter_mut()
+    }
 }
 
 impl<I: Iterator<Item=char>> Iterator for Tagged<I> {
