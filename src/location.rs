@@ -13,7 +13,6 @@ impl Location {
     ///
     /// ```rust
     /// # use charsloc::Location;
-    ///
     /// let location = Location::start();
     /// assert_eq!(location.line, 1);
     /// assert_eq!(location.column, 1);
@@ -32,7 +31,6 @@ impl Location {
     ///
     /// ```rust
     /// # use charsloc::Location;
-    ///
     /// let mut location = Location { line: 3, column: 5 };
     /// location.next_line();
     /// assert_eq!(location.line, 4);
@@ -50,7 +48,6 @@ impl Location {
     ///
     /// ```rust
     /// # use charsloc::Location;
-    ///
     /// let mut location = Location { line: 3, column: 5 };
     /// location.next_column();
     /// assert_eq!(location.line, 3);
